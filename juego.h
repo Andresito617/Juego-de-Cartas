@@ -23,7 +23,7 @@ private:
     void repartirCartas();
     int obtenerJugadorInicial() const;
     int determinarGanadorRonda();
-    void retirarCartasJugadas();
+    void retirarCartasJugadas(const std::vector<Carta>& cartasJugadasRonda);
     std::vector<Carta> cartasJugadas;
 };
 

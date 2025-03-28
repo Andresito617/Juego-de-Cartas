@@ -1,4 +1,5 @@
 #include "carta.h"
+#include <iostream>
 
 // Definiciones de colores para la consola
 #define BG_AZUL "\x1B[44m"
@@ -19,4 +20,8 @@ void Carta::mostrar() const {
     } else if (color == "naranja") {
         std::cout << BG_NARANJA << " " << numero << " " << RESET << " ";
     }
+}
+
+bool Carta::operator==(const Carta& otraCarta) const {
+    return color == otraCarta.color && numero == otraCarta.numero;
 }

@@ -46,6 +46,8 @@ int Juego::obtenerJugadorInicial() const {
 
 void Juego::jugarRonda() {
     cout << "--- Ronda ---" << std::endl;
+    
+    vector<Carta> cartasJugadasRonda;
 
     cartasJugadas.clear(); // Limpiar cartas jugadas de la ronda anterior
 
@@ -66,6 +68,11 @@ void Juego::jugarRonda() {
             break;
         }
     }
+    
+    Carta cartaJugada = jugadores[turnoActual].mano[cartaIndex - 1]; // Obtener la carta jugada
+    jugadores[turnoActual].mano.erase(jugadores[turnoActual].mano.begin() + cartaIndex - 1); // Eliminar la carta de la mano del jugador
+    cartasJugadasRonda.push_back(cartaJugada); // Agregar la carta jugada al vector
+
 
     // Los demás jugadores juegan sus cartas
     for (int i = 0; i < jugadores.size(); i++) {
@@ -85,6 +92,11 @@ void Juego::jugarRonda() {
                     break;
                 }
             }
+            cartaJugada = jugadores[i].mano[cartaIndex - 1]; // Obtener la carta jugada
+            jugadores[i].mano.erase(jugadores[i].mano.begin() + cartaIndex - 1); // Eliminar la carta de la mano del jugador
+            cartasJugadasRonda.push_back(cartaJugada); // Agregar la carta jugada al vector
+            
+             
         }
     }
 
@@ -94,7 +106,7 @@ void Juego::jugarRonda() {
     cout << "El ganador de la ronda es el jugador " << ganadorRonda + 1 << std::endl;
 
     // Retirar las cartas jugadas
-    retirarCartasJugadas();
+    retirarCartasJugadas(cartasJugadasRonda);
 
     // Actualizar el puntaje de los jugadores
     jugadores[ganadorRonda].puntaje++;
@@ -125,8 +137,14 @@ int Juego::determinarGanadorRonda() {
     return ganadorRonda;
 }
 
-void Juego::retirarCartasJugadas() {
-    // Las cartas jugadas ya se han retirado de las manos de los jugadores
+void Juego::retirarCartasJugadas(const std::vector<Carta>& cartasJugadasRonda) {
+    // Retirar cartas jugadas de la ronda del mazo
+    for (const auto& carta : cartasJugadasRonda) {
+        auto it = std::find(mazo.begin(), mazo.end(), carta);
+        if (it != mazo.end()) {
+            mazo.erase(it);
+        }
+    }
 }
 
 void Juego::determinarGanador() const {
@@ -137,4 +155,3 @@ void Juego::determinarGanador() const {
         }
     }
     cout << "El ganador del juego es el jugador " << ganadorJuego + 1 << std::endl;
-}

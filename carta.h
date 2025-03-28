@@ -2,7 +2,6 @@
 #define CARTA_H
 
 #include <string>
-#include <iostream>
 
 class Carta {
 public:
@@ -11,6 +10,7 @@ public:
 
     Carta(std::string color, int numero);
     void mostrar() const;
+    bool operator==(const Carta& otraCarta) const;
 };
 
 #endif // CARTA_H
