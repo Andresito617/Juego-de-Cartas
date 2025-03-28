@@ -1,5 +1,4 @@
 #include "carta.h"
-#include <iostream>
 
 // Definiciones de colores para la consola
 #define BG_AZUL "\x1B[44m"

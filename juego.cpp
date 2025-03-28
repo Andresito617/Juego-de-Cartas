@@ -50,32 +50,41 @@ void Juego::jugarRonda() {
     cartasJugadas.clear(); // Limpiar cartas jugadas de la ronda anterior
 
     // El jugador inicial elige una carta de su mano
-    jugadores[turnoActual].mostrarMano();
     int cartaIndex;
-    cout << "Jugador " << turnoActual + 1 << ", elige una carta (1-" << jugadores[turnoActual].mano.size() << "): ";
-    std::cin >> cartaIndex;
-    Carta cartaJugada = jugadores[turnoActual].mano[cartaIndex - 1];
-    jugadores[turnoActual].mano.erase(jugadores[turnoActual].mano.begin() + cartaIndex - 1);
-    cartasJugadas.push_back(cartaJugada);
+    while (true) {
+        jugadores[turnoActual].mostrarMano();
+        std::cout << "Jugador " << turnoActual + 1 << ", elige una carta (1-" << jugadores[turnoActual].mano.size() << "): ";
+        std::cin >> cartaIndex;
 
-    cout << "Jugador " << turnoActual + 1 << " juega: ";
-    cartaJugada.mostrar();
-    cout << std::endl;
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Entrada inválida. Introduce un número válido." << std::endl;
+        } else if (cartaIndex < 1 || cartaIndex > jugadores[turnoActual].mano.size()) {
+            std::cout << "Número de carta fuera de rango. Introduce un número válido." << std::endl;
+        } else {
+            break;
+        }
+    }
 
     // Los demás jugadores juegan sus cartas
     for (int i = 0; i < jugadores.size(); i++) {
         if (i != turnoActual) {
-            jugadores[i].mostrarMano();
-            cout << "Jugador " << i + 1 << ", elige una carta (1-" << jugadores[i].mano.size() << "): ";
-            std::cin >> cartaIndex;
-            Carta cartaJugador = jugadores[i].mano[cartaIndex - 1];
-            jugadores[i].mano.erase(jugadores[i].mano.begin() + cartaIndex - 1);
-            cartasJugadas.push_back(cartaJugador);
+            while (true) {
+                jugadores[i].mostrarMano();
+                std::cout << "Jugador " << i + 1 << ", elige una carta (1-" << jugadores[i].mano.size() << "): ";
+                std::cin >> cartaIndex;
 
-            cout << "Jugador " << i + 1 << " juega: ";
-            cartaJugador.mostrar();
-            cout << std::endl;
-            
+                if (std::cin.fail()) {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cout << "Entrada inválida. Introduce un número válido." << std::endl;
+                } else if (cartaIndex < 1 || cartaIndex > jugadores[i].mano.size()) {
+                    std::cout << "Número de carta fuera de rango. Introduce un número válido." << std::endl;
+                } else {
+                    break;
+                }
+            }
         }
     }
 
